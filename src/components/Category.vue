@@ -7,19 +7,24 @@
           </div>
           
           <!-- foreach -->
-          <div class="col-md-4 col-xs-6">            
+          <div class="col-md-4 col-xs-6" v-for="category in categories" :key="category.id">
             <div class="shop">
                 <div class="shop-img">
                     <img src="../assets/img/kit2.png" alt="">
                 </div>
                 <div class="shop-body">
                     <h3>
-                        titulo
+                        {{ category.title }}
                     </h3>
-                    <a href="#link_item" class="cta-btn">
+                    <router-link :to="{ 
+                      name: 'list', 
+                      params: {
+                        category: category.id
+                      }}" 
+                    class="cta-btn">
                       Clique Aqui
                       <font-awesome-icon icon="circle-arrow-right" />
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -31,29 +36,8 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
-import axios from 'axios'
-
-// import GetCategorias from '../services/GetCategorias.vue'
-// let categorias = null
-
 export default {
-  name: 'Category',
-  // mounted () {
-  //   this.xama().then(data => console.log(data))
-  //   // .then( res => {
-  //   //   console.log(res)
-  //   //   console.log('dps de inserir')
-  //   // })
-  // },
-  // methods: {
-  //   async xama (){
-  //     return await new Promise((resolve) => {
-  //       let data = GetCategorias.methods.getCategory()
-  //       resolve(data);
-  //     })
-  //   }
-  // }
+  props: ["categories"]
 }
 </script>
 <style>

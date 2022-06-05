@@ -23,7 +23,11 @@
                         <h3 class="footer-title">Categorias</h3>
                         <ul class="footer-links">
                           <!-- foreach caregoriaArray -->
-                          <li><a href="#">titulo</a></li>
+                          <li>
+                            <div v-for="category in categories" :key="category.id">
+                              <router-link :to="{ name:'list', params:{ category:category.id } }">{{ category.title  }}</router-link>
+                            </div>
+                          </li>
                         </ul>
                     </div>
                 </div>
@@ -60,7 +64,33 @@
 </template>
 
 <script>
+import { logar } from '../services/getToken'
+import { getCategory } from '../services/getCategory'
+
 export default {
+  data() {
+    return {
+      categories: [],
+    }
+  },
+  mounted() {
+    logar().then( res => {
+      
+      this.getCategory(res)
+
+    }).catch(res => {
+      console.log(res)
+      alert('error')
+    })
+  },
+  methods: {
+    async getCategory(token){
+      await getCategory(token).then( res => {
+        console.log(res)
+        this.categories = res
+      } )
+    }
+  },
 }
 </script>
 <style>

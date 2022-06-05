@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-4 col-xs-6">
+  <div class="col-md-4 col-xs-6" v-for="product in products" :key="product.product.id">
       <div class="product">
         <div class="product-img">
             <img src="../../assets/img/kit2.png" alt="">
@@ -11,35 +11,33 @@
             </div>
         </div>
         <div class="product-body">
-            <p class="product-category">nome_categoria</p>
-            <h3 class="product-name"><a href="#">nome_produto</a></h3>
-            <!-- if desconto -->
-            <h4 class="product-price">R$ preco_atual <del class="product-old-price">R$ preco_antigo</del></h4>
-            <!-- else -->
-            <!-- <h4 class="product-price">R$ '.$produto['preco'].'</h4> -->
+            <p class="product-category">{{ product.category.title }}</p>
+            <p class="product-name"><b>{{ product.product.title }}</b></p>
+              
+              <div v-if="product.product.prev_price">
+                <h4 class="product-price">R$ {{ product.product.price }} <del class="product-old-price">R$ preco_antigo</del></h4>
+              </div>
+              <div v-else>
+                <h4 class="product-price">R$ {{ product.product.price }} </h4>
+              </div>
 
             <div class="product-rating">
-                <!-- foreach stars -->
-                <font-awesome-icon icon="star" />
-                <font-awesome-icon icon="star" />
-                <font-awesome-icon icon="star" />
-                <font-awesome-icon icon="star" />
-                <font-awesome-icon icon="star" />
+                <font-awesome-icon icon="star" v-for="star in product.product.star" :key="star.id"/>
             </div>
             <div class="product-btns">
                 <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Clique para Ver</span></button>
             </div>
         </div>
         <div class="add-to-cart">
-            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Entrar em Contato</button>
+            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Adicionar ao Carrinho</button>
         </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
 export default {
+  props: ["products"],
   name: 'Product'
 }
 </script>
@@ -110,7 +108,7 @@ export default {
 
 .product .product-body .product-name {
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 22px;
 }
 
 .product .product-body .product-name>a {

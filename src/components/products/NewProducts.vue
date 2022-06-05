@@ -8,9 +8,7 @@
           </div>
           <div class="section-nav">
             <ul class="section-tab-nav tab-nav row">
-              <Product/>
-              <Product/>
-              <Product/>
+              <Product :products="products"/>
             </ul>
           </div>
         </div>
@@ -20,9 +18,9 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import Product from './Product.vue'
 export default {
+  props: ["products"],
   components:{
     Product
   }

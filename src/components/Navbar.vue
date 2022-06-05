@@ -2,8 +2,7 @@
   <div>
     <div id="nav">
       <router-link id="logo-url" to="/">
-        
-        <img alt="Vue logo" src="../assets/img/logo.png">
+        <img src="../assets/img/logo.png">
       </router-link>
       <MenuConntainer/>
     </div>
@@ -15,7 +14,6 @@ import MenuConntainer from './MenuConntainer.vue'
 
 export default {
   name: "Navbar",
-  props: ["alt"],
   components: {
     MenuConntainer
   }
