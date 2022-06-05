@@ -86,7 +86,6 @@ export default {
   methods: {
     async getCategory(token){
       await getCategory(token).then( res => {
-        console.log(res)
         this.categories = res
       } )
     }
