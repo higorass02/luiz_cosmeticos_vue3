@@ -1,5 +1,4 @@
 <template>
-  categoria filtrada: {{ $route.params.category }}
   <div class="section">
     <div class="container">
       <div class="row">
@@ -7,7 +6,7 @@
           <div class="aside">
             <h3 class="aside-title">Categories</h3>
             <div class="checkbox-filter" v-for="category in categories" :key="category.id">
-              <FilterCategory :category="category"/>
+              <FilterCategory :category="category" :selected="$route.params.category"/>
             </div>
 
             <div class="aside">
@@ -27,12 +26,35 @@
 								</div>
 							</div>
 						</div>
-
-            <div class="checkbox-filter" v-for="brand in brands" :key="brand.id">
-              <FilterBrand :brand="brand"/>
-            </div>
-
           </div>
+        </div>
+
+        <div id="store" class="col-md-9">
+          <div class="store-filter clearfix">
+            <div class="store-sort">
+              <label>
+                Ordenar:
+                <select class="input-select">
+                  <option value="">Escolha</option>
+                  <option value="0">Preço Crescente</option>
+                  <option value="1">Preço Decrescente</option>
+                  <option value="2">Promoções</option>
+                </select>
+              </label>
+            </div>
+            
+            <ul class="store-grid">
+              <li class="active">
+                <font-awesome-icon class="" :icon="{ prefix: 'fas' , iconName:'th' }" />
+              </li>
+            </ul>
+          </div>
+
+          <div class="row">
+            <NewProduct :products="products"/>
+            <NewProduct :products="products"/>
+          </div>
+          
         </div>
       </div>
     </div>
@@ -40,6 +62,7 @@
 </template>
 
 <script>
+import NewProduct from '../components/products/NewProducts.vue'
 import FilterCategory from '../components/filters/FilterCategory.vue'
 import FilterBrand from '../components/filters/FilterBrand.vue'
 import { logar } from '../services/getToken'
@@ -51,16 +74,19 @@ export default{
     return {
       categories: [],
       brands: [],
+      products: [],      
     }
   },
   components: {
     FilterCategory,
-    FilterBrand
+    FilterBrand,
+    NewProduct
   },
   mounted() {
     logar().then( res => {
       
       this.getCategory(res)
+      this.getNewProductsHome(res)
 
     }).catch(res => {
       console.log(res)
@@ -73,6 +99,11 @@ export default{
         this.categories = res
       } )
     },
+    async getNewProductsHome(token){
+      await getProducts(token).then( res => {
+        this.products = res
+      } )
+    }
   },
 }
 </script>
@@ -85,6 +116,9 @@ export default{
 /*----------------------------*\
 	Aside
 \*----------------------------*/
+#aside {
+  /* background-color: red; */
+}
 
 .aside+.aside {
   margin-top: 30px;
@@ -258,5 +292,4 @@ export default{
   text-transform: uppercase;
   font-size: 12px;
 }
-
 </style>

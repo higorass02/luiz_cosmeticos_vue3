@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Category :categories="categories" />
-    <NewProduct :products="products"/>
+    <NewProduct :products="products" :tittle="'Novos Produtos'"/>
     <ListMostSell/>
     <NewsLatter/>
   </div>

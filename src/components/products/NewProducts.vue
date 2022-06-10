@@ -3,8 +3,8 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <div class="section-title">
-            <h3 class="title">Novos Produtos</h3>
+          <div class="section-title" v-if="tittle">
+            <h3 class="title">{{ tittle }}</h3>
           </div>
           <div class="section-nav">
             <ul class="section-tab-nav tab-nav row">
@@ -20,7 +20,7 @@
 <script>
 import Product from './Product.vue'
 export default {
-  props: ["products"],
+  props: ["products","tittle"],
   components:{
     Product
   }

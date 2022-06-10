@@ -1,5 +1,5 @@
 <template>
-    <div class="input-checkbox">
+    <div class="input-checkbox" v-if="category">
         <input type="checkbox" :id=" 'category-'+ category.id ">
         <label :for=" 'category-'+ category.id">
             <span></span>
@@ -10,7 +10,7 @@
 
 <script>
 export default{
-    props: ["category"],
+    props: ["category","selected"],
 }
 </script>
 

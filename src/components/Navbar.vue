@@ -28,6 +28,10 @@ export default {
     justify-content: flex-end;
     align-items: center;
     /* min-height: 40px; */
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #FF6A6A;
+    border-bottom: 3px solid #D10024;
   }
 
   #nav #logo-url {
