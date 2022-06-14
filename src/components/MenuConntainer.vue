@@ -3,8 +3,11 @@
     <router-link class="link" to="/">
         <span>Home</span>
     </router-link>
-    <router-link class="link" to="/list">
-        <span>Alerts</span>
+    <router-link class="link" to="/story">
+        <span>Story</span>
+    </router-link>
+    <router-link class="link" to="/product">
+        <span>Product Example</span>
     </router-link>
   </component>
 </template>

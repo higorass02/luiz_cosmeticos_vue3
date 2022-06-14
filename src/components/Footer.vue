@@ -22,10 +22,9 @@
                     <div class="footer">
                         <h3 class="footer-title">Categorias</h3>
                         <ul class="footer-links">
-                          <!-- foreach caregoriaArray -->
                           <li>
                             <div v-for="category in categories" :key="category.id">
-                              <router-link :to="{ name:'list', params:{ category:category.id } }">{{ category.title  }}</router-link>
+                              <router-link :to="{ name:'story', params:{ category:category.id } }">{{ category.title  }}</router-link>
                             </div>
                           </li>
                         </ul>

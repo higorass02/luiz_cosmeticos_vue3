@@ -17,7 +17,7 @@
                         {{ category.title }}
                     </h3>
                     <router-link :to="{ 
-                      name: 'list', 
+                      name: 'story', 
                       params: {
                         category: category.id
                       }}" 

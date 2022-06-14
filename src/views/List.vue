@@ -3,30 +3,14 @@
     <div class="container">
       <div class="row">
         <div id="aside" class="col-md-3">
+
           <div class="aside">
             <h3 class="aside-title">Categories</h3>
             <div class="checkbox-filter" v-for="category in categories" :key="category.id">
               <FilterCategory :category="category" :selected="$route.params.category"/>
             </div>
-
-            <div class="aside">
-							<h3 class="aside-title">Price</h3>
-							<div class="price-filter">
-								<div id="price-slider"></div>
-								<div class="input-number price-min">
-									<input id="price-min" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
-								</div>
-								<span>-</span>
-								<div class="input-number price-max">
-									<input id="price-max" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
-								</div>
-							</div>
-						</div>
           </div>
+          
         </div>
 
         <div id="store" class="col-md-9">
@@ -51,7 +35,6 @@
           </div>
 
           <div class="row">
-            <NewProduct :products="products"/>
             <NewProduct :products="products"/>
           </div>
           
@@ -156,10 +139,6 @@ export default{
   box-shadow: none;
   border: 1px solid #E4E7ED;
   border-radius: 0px;
-}
-
-.noUi-connect {
-  background-color: #D10024;
 }
 
 .noUi-horizontal {
@@ -292,4 +271,109 @@ export default{
   text-transform: uppercase;
   font-size: 12px;
 }
+
+.noUi-base {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	z-index: 1
+}
+
+.noUi-base,
+.noUi-handle {
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0)
+}
+
+.noUi-origin {
+	position: absolute;
+	height: 0;
+	width: 0
+}
+
+.noUi-state-tap .noUi-connect,
+.noUi-state-tap .noUi-origin {
+	-webkit-transition: top .3s, right .3s, bottom .3s, left .3s;
+	transition: top .3s, right .3s, bottom .3s, left .3s
+}
+
+.noUi-horizontal .noUi-handle {
+	width: 34px;
+	height: 28px;
+	left: -17px;
+	top: -6px
+}
+
+.noUi-vertical .noUi-handle {
+	width: 28px;
+	height: 34px;
+	left: -6px;
+	top: -17px
+}
+
+.noUi-handle {
+	border: 1px solid #D9D9D9;
+	border-radius: 3px;
+	background: #FFF;
+	cursor: default;
+	box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB
+}
+
+.noUi-handle:after,
+.noUi-handle:before {
+	content: "";
+	display: block;
+	position: absolute;
+	height: 14px;
+	width: 1px;
+	background: #E8E7E6;
+	left: 14px;
+	top: 6px
+}
+
+.noUi-vertical .noUi-handle:after,
+.noUi-vertical .noUi-handle:before {
+	width: 14px;
+	height: 1px;
+	left: 6px;
+	top: 14px
+}
+
+.noUi-vertical .noUi-handle:after {
+	top: 17px
+}
+
+[disabled] .noUi-handle,
+[disabled].noUi-handle,
+[disabled].noUi-target {
+	cursor: not-allowed
+}
+
+.noUi-connect {
+	position: absolute;
+	right: 0;
+	top: 0;
+	left: 0;
+	bottom: 0;
+  background-color: #D10024;
+}
+
+.noUi-state-tap .noUi-connect,
+.noUi-state-tap .noUi-origin {
+	-webkit-transition: top .3s, right .3s, bottom .3s, left .3s;
+	transition: top .3s, right .3s, bottom .3s, left .3s
+}
+
+.noUi-connect {
+	background: #3FB8AF;
+	border-radius: 4px;
+	box-shadow: inset 0 0 3px rgba(51, 51, 51, .45);
+	-webkit-transition: background 450ms;
+	transition: background 450ms
+}
+
+[disabled] .noUi-connect {
+	background: #B8B8B8
+}
+
 </style>
