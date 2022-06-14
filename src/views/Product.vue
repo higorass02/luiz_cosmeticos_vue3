@@ -7,7 +7,7 @@
             <Slide v-for='photo in photos' :key='photo.id'>
               <div class='carousel__item'>
                 <div class="product-preview">
-                  <img :src="photo.url" alt="">
+                  <img :src="photo.URL" alt="">
                 </div>
               </div>
             </Slide>
@@ -21,43 +21,66 @@
 
         <div class="col-md-6">
           <div class="product-details">
-            <h2 class="product-name">product name goes here</h2>
+            <h2 class="product-name">{{ productItem.title }}</h2>
             <div>
               <div class="product-rating">
-                <font-awesome-icon icon="star"/>
+                <font-awesome-icon icon="star" v-for="star in productItem.star" :key="star.id"/>
               </div>
-              <a class="review-link" href="#">10 Review(s) | Add your review</a>
             </div>
             <div>
-              <h3 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h3>
-              <span class="product-available">In Stock</span>
-            </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-            <div class="product-options">
-              <label>
-                Size
-                <select class="input-select">
-                  <option value="0">X</option>
-                </select>
-              </label>
-              <label>
-                Color
-                <select class="input-select">
-                  <option value="0">Red</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="add-to-cart">
-              <div class="qty-label">
-                Qty
-                <div class="input-number">
-                  <input type="number">
-                  <span class="qty-up">+</span>
-                  <span class="qty-down">-</span>
-                </div>
+              <div v-if="productItem.prev_price">
+                <h4 class="product-price">R$ {{ productItem.price }} <del class="product-old-price">R$ preco_antigo</del></h4>
               </div>
+              <div v-else>
+                <h4 class="product-price">R$ {{ productItem.price }} </h4>
+              </div>
+            </div>
+            <p>{{ productItem.description }}</p>
+
+            <div class="product-options row" style="margin-left:20px!important">
+              <label class="row col-md-12" v-if="productItem.value_capacity">
+                <div class="col-md-6">{{ productItem.type_capacity }}</div>
+                <select  name="type_capacity" class="input-select col-md-6" style="width:auto">
+                  <option>Escolha...</option>
+                  <option v-for="item in [productItem.value_capacity]" :key="item">
+                  {{ item }}
+                  </option>>
+                </select>
+              </label>
+            </div>
+             <div class="product-options row" style="margin-left:20px!important" v-if="productItem.model">
+              <label class="row col-md-12" v-if="productItem.model">
+                Modelo
+                <select name="model" class="input-select" style="width:auto">
+                  <option>Escolha...</option>
+                  <option v-for="item in [productItem.model]" :key="item">
+                  {{ item }}
+                  </option>>
+                </select>
+              </label>
+            </div>
+            <div class="product-options row" style="margin-left:20px!important" v-if="productItem.color">
+              <label v-if="productItem.model" class="row col-md-12">
+                <div class="col-md-6">Cor</div>
+                <select name="model" class="input-select col-md-6">
+                  <option v-for="item in [productItem.model]" :key="item">
+                  {{ item }}
+                  </option>>
+                </select>
+              </label>
+            </div>
+            <div class="product-options row" style="margin-left:20px!important">
+              <label class="row col-md-12" v-if="productSales.qtd">
+                <div class="col-md-6">Quantidade</div>
+                <select name="qtd" class="input-select col-md-6" style="width:auto">
+                  <option>Escolha...</option>
+                  <option v-for="item in productSales.qtd" :key="item">
+                  {{ item }}
+                  </option>>
+                </select>
+              </label>
+            </div>
+            <div class="add-to-cart">
               <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
             </div>
           </div>
@@ -72,11 +95,38 @@
 import 'vue3-carousel/dist/carousel.css';
 import { defineComponent } from 'vue';
 import { Carousel, Navigation, Slide, Pagination } from 'vue3-carousel';
-
+import { logar } from '../services/getToken'
+import { getProduct, getPhotos, getSale } from '../services/getProduct'
 
 export default defineComponent({
   name: 'ExamplePagination',
-  
+  mounted() {
+    logar().then( res => {
+      let productId = this.product ? this.product.id : 1
+      this.getProductDetail(res,productId)
+    }).catch(res => {
+      console.log(res)
+      alert('error')
+    })
+  },
+  methods: {
+    // async getProductDetail(token,productId){
+    //   await getProduct(token,productId).then( res => {
+    //     this.productItem = res
+    //   } )
+    // },
+    async getProductDetail(token,productId){
+      await getPhotos(token,productId).then( res => {
+        this.photos = res[0].productsPhoto
+        this.productItem = res[0].product
+      } )
+      await getSale(token,productId).then( res => {
+        console.log(res[0].ProductsSales[0].qtd)
+        this.productSales = res[0].ProductsSales[0]
+      })
+    },
+  },
+  props: ["product"],
   components: {
     Pagination,
     Carousel,
@@ -98,24 +148,10 @@ export default defineComponent({
         snapAlign: 'start',
       },
     },
-    photos: [
-      {
-        id:0,
-        url: require('@/assets/img/product01.png'),
-      },
-      {
-        id:1,
-        url: require('@/assets/img/product03.png'),
-      },
-      {
-        id:3,
-        url: require('@/assets/img/product06.png'),
-      },
-      {
-        id:4,
-        url: require('@/assets/img/product08.png'),
-      },
-    ],
+    photos: [],
+    products: [],
+    productItem: {},
+    productSales: {},
   }),
 });
 </script>
